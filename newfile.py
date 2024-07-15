@@ -7,10 +7,9 @@ from tqdm import tqdm
 
 
 class VK:
-    def __init__(self, access_token, user_id, api_token, version='5.199'):
+    def __init__(self, access_token, api_token, version='5.199'):
 
         self.token = access_token
-        self.id = user_id
         self.token_api = api_token
         self.version = version
         self.params = {'access_token': self.token, 'v': self.version}
@@ -18,7 +17,7 @@ class VK:
     def vk_fotos(self):
         n = 0
         url = 'https://api.vk.com/method/photos.get'
-        params = {'owner_id': self.id, 'access_token': self.token, 'rev': 0, 'count': 5,
+        params = {'owner_id': user_id, 'access_token': self.token, 'rev': 0, 'count': 5,
                   'extended': 1, 'album_id': 'profile', 'photo_sizes': True, 'v': self.version}
         response = requests.get(url, params=params)
         for el in response.json()['response']['items']:
@@ -62,5 +61,5 @@ class VK:
                 pbar.update(100/total)
 
 
-vk = VK(access_token, user_id, token_api)
+vk = VK(access_token, token_api)
 vk.backup()

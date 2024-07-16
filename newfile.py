@@ -1,7 +1,7 @@
 import requests
 import os
 import time
-from config import access_token, user_id, token_api
+from config import access_token, token_api
 from datetime import datetime, date
 from tqdm import tqdm
 
@@ -14,7 +14,7 @@ class VK:
         self.version = version
         self.params = {'access_token': self.token, 'v': self.version}
 
-    def vk_fotos(self):
+    def vk_fotos(self, user_id):
         n = 0
         url = 'https://api.vk.com/method/photos.get'
         params = {'owner_id': user_id, 'access_token': self.token, 'rev': 0, 'count': 5,
@@ -50,7 +50,7 @@ class VK:
             response = requests.put(url_upload, files={'file': image})
 
     def backup(self):
-        vk.vk_fotos()
+        vk.vk_fotos(input('Введите ID:'))
         total = len(os.listdir('Image'))
         count = 0
         with tqdm(total=len(os.listdir('Image')), desc="Загрузка файлов...") as pbar:

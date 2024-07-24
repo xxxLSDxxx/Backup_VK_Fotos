@@ -5,11 +5,11 @@ from datetime import datetime, date
 from tqdm import tqdm
 
 
-def vk_fotos(user_id, album_id='profile', count=5, version=5.199):
+def vk_fotos(user_id, count_fotos, version=5.199):
     photos_info = {}
     url = 'https://api.vk.com/method/photos.get'
     params = {'owner_id': user_id, 'access_token': 'введите токен',
-              'rev': 0, 'count': count, 'extended': 1, 'album_id': album_id, 'photo_sizes': True, 'v': version}
+              'rev': 0, 'count': count_fotos, 'extended': 1, 'album_id': 'profile', 'photo_sizes': True, 'v': version}
     response = requests.get(url, params=params)
     for el in response.json()['response']['items']:
         for size in el['sizes']:
@@ -46,7 +46,7 @@ def unload_ya(file):
 
 
 def backup():
-    vk_fotos('101405428', 'profile', 5)
+    vk_fotos(user_id, count_fotos)
     total = len(os.listdir('Image'))
     count = 0
     with tqdm(total=len(os.listdir('Image')), desc="Загрузка файлов...") as pbar:
@@ -57,4 +57,7 @@ def backup():
             pbar.update(100/total)
 
 
-backup()
+if __name__ == '__main__':
+    user_id = '101405428'
+    count_fotos = 5
+    backup()
